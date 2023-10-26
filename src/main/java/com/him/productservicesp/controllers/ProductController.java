@@ -4,6 +4,7 @@ import com.him.productservicesp.Exceptions.NotFoundException;
 import com.him.productservicesp.Utilities_Converters.Convert;
 import com.him.productservicesp.dtos.ProductDTO;
 import com.him.productservicesp.models.Product;
+import com.him.productservicesp.repositories.ProductRepository;
 import com.him.productservicesp.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,13 @@ import java.util.Optional;
 @RequestMapping("/products")
 public class ProductController {
     public final ProductService productService;
-    public ProductController(ProductService productService) {
+    private ProductRepository productRepository;
+
+    public ProductController( ProductService productService, ProductRepository productRepository) {
+        this.productRepository = productRepository;
         this.productService = productService;
     }
+
 
     @GetMapping()
     public Product[] getAllProducts() throws NotFoundException {
@@ -60,7 +65,20 @@ public class ProductController {
                 HttpStatus.OK
         );
 
+        //DB SAVE METHOD:
+        Product newProduct = new Product();
+        newProduct.setDescription(productDTO.getDescription());
+        newProduct.setImageUrl(productDTO.getImage());
+        newProduct.setTitle(productDTO.getTitle());
+        newProduct.setPrice(productDTO.getPrice());
+
+        newProduct = productRepository.save(newProduct);
+
+        //DB SAVE METHOD CONCLUDES
+
         return response;
+
+
     }
 
     @PatchMapping("/{productId}")

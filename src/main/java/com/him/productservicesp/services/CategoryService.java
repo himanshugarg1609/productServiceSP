@@ -9,5 +9,7 @@ import java.util.Optional;
 public interface CategoryService {
     Optional<List<Category>> getAllCategories();
 
+    Optional<Category> addNewCategory(Category category);
+
     Optional<List<Product>> getProductsInCategory(String categoryName);
 }

@@ -45,4 +45,9 @@ public class FakeStoreCategoryServiceImpl implements CategoryService{
         }
         return Optional.of(answer);
     }
+
+    @Override
+    public Optional<Category> addNewCategory(Category category) {
+        return Optional.empty();
+    }
 }
